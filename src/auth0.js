@@ -42,7 +42,7 @@ async function exchangeCodeForToken(code) {
 
  
 
-  let tokenResponse = await superagent.post('http://tttauth0.eu.auth0.com/oauth/token').send({
+  let tokenResponse = await superagent.post('https://tttauth0.eu.auth0.com/oauth/token').send({
     code: code,
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
