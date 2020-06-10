@@ -9,7 +9,7 @@ const users = require('./users.js');
 */
 
 // const tokenServerUrl = process.env.TOKEN_SERVER;
-const remoteAPI = 'https://tttauth0.eu.auth0.com/userinfo';
+const remoteAPI = 'http://tttauth0.eu.auth0.com/userinfo';
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const API_SERVER = process.env.API_SERVER;//local
@@ -42,7 +42,7 @@ async function exchangeCodeForToken(code) {
 
  
 
-  let tokenResponse = await superagent.post('https://tttauth0.eu.auth0.com/oauth/token').send({
+  let tokenResponse = await superagent.post('http://tttauth0.eu.auth0.com/oauth/token').send({
     code: code,
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
@@ -63,7 +63,7 @@ async function exchangeCodeForToken(code) {
 async function getRemoteUserInfo(token) {
   // console.log(token);
   let userResponse =
-    await superagent.get('https://tttauth0.eu.auth0.com/userinfo')
+    await superagent.get('http://tttauth0.eu.auth0.com/userinfo')
       .set('user-agent', 'express-app')
       .set('Authorization', `Bearer ${token}`)
       let user = userResponse.body;
