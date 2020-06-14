@@ -3,10 +3,16 @@
 const superagent = require('superagent');
 const users = require('./users.js');
 
-const remoteAPI = process.env.REMOTE_API;
+/*
+  Resources
+  https://developer.github.com/apps/building-oauth-apps/
+*/
+
+// const tokenServerUrl = process.env.TOKEN_SERVER;
+const remoteAPI = 'https://tttauth0.eu.auth0.com/userinfo';
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const API_SERVER = process.env.API_SERVER;
+const API_SERVER = process.env.API_SERVER;//local
 
 module.exports = async function authorize(req, res, next) {
 
@@ -31,14 +37,16 @@ module.exports = async function authorize(req, res, next) {
 }
 
 async function exchangeCodeForToken(code) {
+  // console.log(CLIENT_ID);
+  // console.log(CLIENT_SECRET);
 
  
 
-  let tokenResponse = await superagent.post(API_SERVER).send({
+  let tokenResponse = await superagent.post('https://tttauth0.eu.auth0.com/oauth/token').send({
     code: code,
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
-    redirect_uri: process.env.REDIRECT_URI,
+    redirect_uri: 'https://alamauthorization.herokuapp.com/authorize',
     grant_type: 'authorization_code',
   }).catch(e=>console.log(e.message));
 
@@ -55,7 +63,7 @@ async function exchangeCodeForToken(code) {
 async function getRemoteUserInfo(token) {
   // console.log(token);
   let userResponse =
-    await superagent.get(remoteAPI)
+    await superagent.get('http://tttauth0.eu.auth0.com/userinfo')
       .set('user-agent', 'express-app')
       .set('Authorization', `Bearer ${token}`)
       let user = userResponse.body;
